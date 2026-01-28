@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="description" content="Divine your card - Un jeu magique de devinette de carte avec design mystique">
+  <meta name="theme-color" content="#2d1b69">
+  <title>Divine Your Card - Divine Your Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cosmic-dark: #0a0e27;
+      --cosmic-purple: #2d1b69;
+      --mystic-violet: #6b46c1;
+      --celestial-blue: #4c9aff;
+      --golden-glow: #f6e05e;
+      --lunar-white: #f7fafc;
+      --shadow-purple: rgba(107, 70, 193, 0.3);
+      --glow-gold: rgba(246, 224, 94, 0.4);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background: linear-gradient(135deg, var(--cosmic-dark) 0%, var(--cosmic-purple) 50%, #1a1043 100%);
+      color: var(--lunar-white);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated starfield background */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.5); }
+    }
+
+    /* Floating particles */
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--golden-glow);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: float 8s infinite ease-in-out;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      font-family: 'Cinzel', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--golden-glow) 0%, var(--celestial-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+      text-shadow: 0 0 30px var(--glow-gold);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 10px var(--glow-gold)); }
+      to { filter: drop-shadow(0 0 20px var(--glow-gold)); }
+    }
+
+    .tagline {
+      font-size: 1.3rem;
+      color: var(--celestial-blue);
+      font-style: italic;
+      letter-spacing: 2px;
+      opacity: 0.9;
+    }
+
+    /* Language Switcher */
+    .lang-switcher {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 10px;
+      background: rgba(45, 27, 105, 0.8);
+      padding: 10px 15px;
+      border-radius: 25px;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--shadow-purple);
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--lunar-white);
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 5px 15px;
+      border-radius: 15px;
+      transition: all 0.3s ease;
+      opacity: 0.6;
+    }
+
+    .lang-btn:hover {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(135deg, var(--mystic-violet), var(--celestial-blue));
+      opacity: 1;
+      box-shadow: 0 0 15px var(--shadow-purple);
+    }
+
+    /* Instructions */
+    .instructions {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      padding: 25px;
+      background: rgba(107, 70, 193, 0.15);
+      border-radius: 20px;
+      border: 1px solid var(--shadow-purple);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 1.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .instructions p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    .step-indicator {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--mystic-violet), var(--celestial-blue));
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      font-size: 1rem;
+      box-shadow: 0 4px 15px var(--shadow-purple);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Card Groups */
+    #groups {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 25px;
+      margin: 40px auto;
+      max-width: 100%;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .group {
+      background: rgba(45, 27, 105, 0.4);
+      padding: 20px;
+      border-radius: 20px;
+      border: 2px solid transparent;
+      backdrop-filter: blur(10px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      min-width: fit-content;
+    }
+
+    .group::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, var(--shadow-purple), transparent);
+      transform: rotate(45deg);
+      transition: all 0.6s ease;
+      opacity: 0;
+    }
+
+    .group:hover::before {
+      opacity: 1;
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
+    }
+
+    .group:hover {
+      border-color: var(--golden-glow);
+      box-shadow: 0 10px 40px var(--shadow-purple), 0 0 30px var(--glow-gold);
+      transform: translateY(-5px) scale(1.02);
+    }
+
+    .group.selected {
+      border-color: var(--golden-glow);
+      box-shadow: 0 0 40px var(--glow-gold);
+      animation: selectedPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes selectedPulse {
+      0%, 100% { box-shadow: 0 0 40px var(--glow-gold); }
+      50% { box-shadow: 0 0 60px var(--glow-gold), 0 0 80px var(--shadow-purple); }
+    }
+
+    .card {
+      margin: 8px;
+      display: inline-block;
+      animation: cardAppear 0.6s ease-out backwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.15s; }
+    .card:nth-child(3) { animation-delay: 0.2s; }
+    .card:nth-child(4) { animation-delay: 0.25s; }
+    .card:nth-child(5) { animation-delay: 0.3s; }
+
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: rotateY(90deg) scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: rotateY(0) scale(1);
+      }
+    }
+
+    .carte-image {
+      width: 90px;
+      height: 135px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      border: 2px solid rgba(246, 224, 94, 0.2);
+    }
+
+    .carte-image:hover {
+      transform: translateY(-10px) scale(1.1) rotateZ(5deg);
+      box-shadow: 0 15px 40px rgba(246, 224, 94, 0.4), 0 0 20px var(--glow-gold);
+      border-color: var(--golden-glow);
+    }
+
+    /* Action Button */
+    .action-section {
+      text-align: center;
+      margin: 50px 0;
+    }
+
+    .next-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      padding: 18px 50px;
+      background: linear-gradient(135deg, var(--mystic-violet), var(--celestial-blue));
+      color: var(--lunar-white);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 8px 30px var(--shadow-purple);
+      letter-spacing: 2px;
+    }
+
+    .next-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .next-btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .next-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 50px var(--shadow-purple), 0 0 30px var(--glow-gold);
+    }
+
+    .next-btn:active {
+      transform: scale(0.98);
+    }
+
+    .next-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Message Area */
+    #message {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1.3rem;
+      min-height: 50px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    /* Final Reveal */
+    .reveal-container {
+      text-align: center;
+      animation: revealAppear 1s ease-out;
+    }
+
+    @keyframes revealAppear {
+      from {
+        opacity: 0;
+        transform: scale(0.8) rotateY(180deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotateY(0);
+      }
+    }
+
+    .reveal-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      background: linear-gradient(135deg, var(--golden-glow), var(--celestial-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    .revealed-card-container {
+      display: inline-block;
+      position: relative;
+      animation: cardRevealSpin 1.5s ease-out;
+    }
+
+    @keyframes cardRevealSpin {
+      0% { transform: rotateY(0) scale(0.5); opacity: 0; }
+      50% { transform: rotateY(180deg) scale(1.2); }
+      100% { transform: rotateY(360deg) scale(1); opacity: 1; }
+    }
+
+    .revealed-card {
+      width: 200px;
+      height: 300px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px var(--shadow-purple), 0 0 50px var(--glow-gold);
+      border: 3px solid var(--golden-glow);
+      animation: float-card 3s ease-in-out infinite;
+    }
+
+    @keyframes float-card {
+      0%, 100% { transform: translateY(0) rotateZ(0deg); }
+      50% { transform: translateY(-20px) rotateZ(5deg); }
+    }
+
+    .restart-btn {
+      margin-top: 40px;
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      padding: 15px 40px;
+      background: rgba(45, 27, 105, 0.8);
+      color: var(--lunar-white);
+      border: 2px solid var(--golden-glow);
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 1.5px;
+    }
+
+    .restart-btn:hover {
+      background: linear-gradient(135deg, var(--mystic-violet), var(--celestial-blue));
+      transform: scale(1.05);
+      box-shadow: 0 8px 30px var(--shadow-purple);
+    }
+
+    /* ========================================
+       RESPONSIVE DESIGN - ULTRA OPTIMIZED
+       ======================================== */
+
+    /* Extra Large Screens - TV, Large Monitors (1920px+) */
+    @media (min-width: 1920px) {
+      .container {
+        max-width: 1800px;
+      }
+
+      .logo {
+        font-size: 4.5rem;
+      }
+
+      .tagline {
+        font-size: 1.8rem;
+      }
+
+      .carte-image {
+        width: 110px;
+        height: 165px;
+      }
+
+      .group {
+        padding: 30px;
+      }
+
+      .instructions p {
+        font-size: 1.4rem;
+      }
+
+      .step-indicator {
+        font-size: 1.2rem;
+        padding: 10px 25px;
+      }
+
+      .next-btn {
+        font-size: 1.5rem;
+        padding: 22px 60px;
+      }
+
+      .revealed-card {
+        width: 240px;
+        height: 360px;
+      }
+    }
+
+    /* Large Screens - Desktop (1200px - 1919px) */
+    @media (min-width: 1200px) and (max-width: 1919px) {
+      .logo {
+        font-size: 3.5rem;
+      }
+
+      .carte-image {
+        width: 90px;
+        height: 135px;
+      }
+    }
+
+    /* Medium Screens - Tablets Landscape, Small Laptops (992px - 1199px) */
+    @media (max-width: 1199px) {
+      .container {
+        padding: 30px 15px;
+      }
+
+      .logo {
+        font-size: 3rem;
+      }
+
+      .tagline {
+        font-size: 1.2rem;
+      }
+
+      .carte-image {
+        width: 80px;
+        height: 120px;
+      }
+
+      .group {
+        padding: 18px;
+        gap: 15px;
+      }
+
+      #groups {
+        gap: 20px;
+      }
+
+      .instructions {
+        padding: 20px;
+      }
+
+      .instructions p {
+        font-size: 1.1rem;
+      }
+    }
+
+    /* Small-Medium Screens - Tablets Portrait (768px - 991px) */
+    @media (max-width: 991px) {
+      .logo {
+        font-size: 2.8rem;
+      }
+
+      .tagline {
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+      }
+
+      .carte-image {
+        width: 75px;
+        height: 112px;
+      }
+
+      .group {
+        padding: 15px;
+        margin: 5px;
+      }
+
+      #groups {
+        gap: 15px;
+      }
+
+      .card {
+        margin: 6px;
+      }
+
+      .next-btn {
+        font-size: 1.2rem;
+        padding: 16px 40px;
+        letter-spacing: 1.5px;
+      }
+
+      .revealed-card {
+        width: 180px;
+        height: 270px;
+      }
+
+      .reveal-title {
+        font-size: 2.2rem;
+      }
+
+      .lang-switcher {
+        top: 15px;
+        right: 15px;
+        padding: 8px 12px;
+      }
+
+      .lang-btn {
+        font-size: 0.85rem;
+        padding: 4px 12px;
+      }
+    }
+
+    /* Mobile Landscape & Small Tablets (576px - 767px) */
+    @media (max-width: 767px) {
+      .container {
+        padding: 20px 12px;
+      }
+
+      header {
+        margin-bottom: 30px;
+      }
+
+      .logo {
+        font-size: 2.3rem;
+        margin-bottom: 8px;
+      }
+
+      .tagline {
+        font-size: 1rem;
+        letter-spacing: 1px;
+      }
+
+      .instructions {
+        padding: 18px;
+        margin-bottom: 25px;
+      }
+
+      .instructions p {
+        font-size: 1rem;
+        margin-bottom: 10px;
+        line-height: 1.6;
+      }
+
+      .step-indicator {
+        font-size: 0.9rem;
+        padding: 6px 16px;
+      }
+
+      #groups {
+        gap: 12px;
+        margin: 25px 0;
+      }
+
+      .group {
+        padding: 12px;
+        border-radius: 15px;
+      }
+
+      .card {
+        margin: 5px;
+      }
+
+      .carte-image {
+        width: 65px;
+        height: 97px;
+        border-radius: 10px;
+      }
+
+      .next-btn {
+        font-size: 1.1rem;
+        padding: 14px 35px;
+        letter-spacing: 1.2px;
+      }
+
+      .revealed-card {
+        width: 160px;
+        height: 240px;
+      }
+
+      .reveal-title {
+        font-size: 2rem;
+        margin-bottom: 25px;
+      }
+
+      .restart-btn {
+        font-size: 1rem;
+        padding: 12px 30px;
+      }
+
+      .lang-switcher {
+        top: 10px;
+        right: 10px;
+        padding: 6px 10px;
+        gap: 8px;
+      }
+
+      .lang-btn {
+        font-size: 0.8rem;
+        padding: 4px 10px;
+      }
+    }
+
+    /* Mobile Portrait (451px - 575px) */
+    @media (max-width: 575px) {
+      .container {
+        padding: 15px 10px;
+      }
+
+      header {
+        margin-bottom: 25px;
+        padding: 30px 0;
+      }
+
+      .logo {
+        font-size: 2rem;
+        line-height: 1.2;
+      }
+
+      .tagline {
+        font-size: 0.9rem;
+      }
+
+      .instructions {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 15px;
+      }
+
+      .instructions p {
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+      }
+
+      .step-indicator {
+        font-size: 0.85rem;
+        padding: 5px 14px;
+      }
+
+      #groups {
+        gap: 10px;
+        margin: 20px 0;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .group {
+        padding: 10px;
+        width: 100%;
+        max-width: 320px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .card {
+        margin: 4px;
+      }
+
+      .carte-image {
+        width: 56px;
+        height: 84px;
+        border-radius: 8px;
+      }
+
+      .action-section {
+        margin: 30px 0;
+      }
+
+      .next-btn {
+        font-size: 1rem;
+        padding: 12px 28px;
+        border-radius: 40px;
+        letter-spacing: 1px;
+        width: 90%;
+        max-width: 280px;
+      }
+
+      #message {
+        font-size: 1.1rem;
+        padding: 0 10px;
+      }
+
+      .revealed-card {
+        width: 140px;
+        height: 210px;
+      }
+
+      .reveal-title {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+      }
+
+      .restart-btn {
+        font-size: 0.95rem;
+        padding: 11px 26px;
+        width: 90%;
+        max-width: 250px;
+      }
+
+      .lang-switcher {
+        top: 8px;
+        right: 8px;
+        padding: 5px 8px;
+        gap: 6px;
+        border-radius: 20px;
+      }
+
+      .lang-btn {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+      }
+
+      /* Reduce star count on mobile */
+      .star:nth-child(n+80) {
+        display: none;
+      }
+
+      .particle:nth-child(n+12) {
+        display: none;
+      }
+    }
+
+    /* Small Mobile (376px - 450px) */
+    @media (max-width: 450px) {
+      .logo {
+        font-size: 1.8rem;
+      }
+
+      .tagline {
+        font-size: 0.85rem;
+      }
+
+      .instructions {
+        padding: 12px;
+      }
+
+      .instructions p {
+        font-size: 0.9rem;
+      }
+
+      .carte-image {
+        width: 50px;
+        height: 75px;
+      }
+
+      .group {
+        padding: 8px;
+        max-width: 280px;
+      }
+
+      .card {
+        margin: 3px;
+      }
+
+      .next-btn {
+        font-size: 0.95rem;
+        padding: 11px 24px;
+      }
+
+      .revealed-card {
+        width: 130px;
+        height: 195px;
+      }
+
+      .reveal-title {
+        font-size: 1.6rem;
+      }
+    }
+
+    /* Extra Small Mobile (230px - 375px) */
+    @media (max-width: 375px) {
+      body {
+        font-size: 14px;
+      }
+
+      .container {
+        padding: 10px 8px;
+      }
+
+      header {
+        padding: 20px 0;
+        margin-bottom: 20px;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+      }
+
+      .tagline {
+        font-size: 0.75rem;
+        letter-spacing: 0.5px;
+      }
+
+      .instructions {
+        padding: 10px;
+        margin-bottom: 15px;
+      }
+
+      .instructions p {
+        font-size: 0.85rem;
+        line-height: 1.5;
+        margin-bottom: 6px;
+      }
+
+      .step-indicator {
+        font-size: 0.75rem;
+        padding: 4px 12px;
+      }
+
+      #groups {
+        gap: 8px;
+        margin: 15px 0;
+      }
+
+      .group {
+        padding: 8px;
+        max-width: 250px;
+        border-radius: 12px;
+      }
+
+      .card {
+        margin: 2px;
+      }
+
+      .carte-image {
+        width: 44px;
+        height: 66px;
+        border-radius: 6px;
+        border-width: 1px;
+      }
+
+      .action-section {
+        margin: 20px 0;
+      }
+
+      .next-btn {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+        border-radius: 35px;
+        letter-spacing: 0.8px;
+        width: 95%;
+        max-width: 240px;
+      }
+
+      #message {
+        font-size: 1rem;
+        margin-top: 15px;
+      }
+
+      .revealed-card-container {
+        margin: 15px 0;
+      }
+
+      .revealed-card {
+        width: 110px;
+        height: 165px;
+        border-radius: 15px;
+      }
+
+      .reveal-title {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+      }
+
+      .restart-btn {
+        font-size: 0.85rem;
+        padding: 9px 22px;
+        margin-top: 25px;
+        width: 95%;
+        max-width: 220px;
+      }
+
+      .lang-switcher {
+        top: 6px;
+        right: 6px;
+        padding: 4px 6px;
+        gap: 5px;
+        border-radius: 18px;
+      }
+
+      .lang-btn {
+        font-size: 0.7rem;
+        padding: 3px 7px;
+        border-radius: 12px;
+      }
+
+      /* Further reduce animations for performance */
+      .star:nth-child(n+50) {
+        display: none;
+      }
+
+      .particle:nth-child(n+8) {
+        display: none;
+      }
+
+      /* Simplify animations on very small screens */
+      .carte-image:hover {
+        transform: translateY(-5px) scale(1.05);
+      }
+
+      .group:hover {
+        transform: translateY(-3px);
+      }
+    }
+
+    /* Ultra Small Devices (230px - 320px) */
+    @media (max-width: 320px) {
+      .logo {
+        font-size: 1.3rem;
+      }
+
+      .tagline {
+        font-size: 0.7rem;
+      }
+
+      .instructions p {
+        font-size: 0.8rem;
+      }
+
+      .step-indicator {
+        font-size: 0.7rem;
+        padding: 3px 10px;
+      }
+
+      .group {
+        max-width: 210px;
+        padding: 6px;
+      }
+
+      .carte-image {
+        width: 38px;
+        height: 57px;
+      }
+
+      .next-btn {
+        font-size: 0.85rem;
+        padding: 9px 18px;
+      }
+
+      .revealed-card {
+        width: 95px;
+        height: 142px;
+      }
+
+      .reveal-title {
+        font-size: 1.2rem;
+      }
+
+      .restart-btn {
+        font-size: 0.8rem;
+        padding: 8px 18px;
+      }
+
+      /* Minimal animations for performance */
+      * {
+        animation-duration: 0.3s !important;
+      }
+
+      .star:nth-child(n+30) {
+        display: none;
+      }
+
+      .particle {
+        display: none;
+      }
+    }
+
+    /* Landscape Orientation Optimizations */
+    @media (max-height: 500px) and (orientation: landscape) {
+      header {
+        padding: 15px 0;
+        margin-bottom: 15px;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+      }
+
+      .tagline {
+        font-size: 0.85rem;
+      }
+
+      .instructions {
+        padding: 10px;
+        margin-bottom: 12px;
+      }
+
+      .instructions p {
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+      }
+
+      #groups {
+        margin: 12px 0;
+        gap: 8px;
+      }
+
+      .group {
+        padding: 8px;
+      }
+
+      .carte-image {
+        width: 50px;
+        height: 75px;
+      }
+
+      .next-btn {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+      }
+
+      .action-section {
+        margin: 15px 0;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      .lang-switcher,
+      .next-btn,
+      .restart-btn,
+      .stars,
+      .particle {
+        display: none !important;
+      }
+
+      body {
+        background: white;
+        color: black;
+      }
+
+      .group {
+        break-inside: avoid;
+      }
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--golden-glow);
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Language Switcher -->
+  <div class="lang-switcher">
+    <button class="lang-btn active" data-lang="fr">FR</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+  </div>
+
+  <!-- Starfield Background -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Floating Particles -->
+  <div id="particles"></div>
+
+  <div class="container">
+    <header>
+      <h1 class="logo" data-i18n="title">🔮 Divine your card</h1>
+      <p class="tagline" data-i18n="subtitle">Unveil the Mystery of Your Chosen Card</p>
+    </header>
+
+    <div class="instructions">
+      <p data-i18n="instruction-1">Think of a card among the 25 below and keep it in your mind.</p>
+      <p data-i18n="instruction-2">Click on the group containing your card.</p>
+      <div class="step-indicator">
+        <span data-i18n="step">Step</span> <span id="stepNumber">1</span> / 3
+      </div>
+    </div>
+
+    <div id="groups"></div>
+
+    <div class="action-section">
+      <button class="next-btn" onclick="nextStep()">
+        <span data-i18n="next-btn">Continue the Magic</span>
+      </button>
+    </div>
+
+    <div id="message"></div>
+  </div>
+
+  <script>
+    // ============ Internationalization ============
+    const translations = {
+      fr: {
+        title: "🔮 devine Mystique des Cartes",
+        subtitle: "Découvrez le Mystère de Votre Carte Choisie",
+        "instruction-1": "Pensez à une carte parmi les 25 ci-dessous et gardez-la en tête.",
+        "instruction-2": "Cliquez sur le groupe contenant votre carte.",
+        step: "Étape",
+        "next-btn": "Continuer la Magie",
+        "selected-group": "✨ Groupe sélectionné :",
+        "select-prompt": "🧐 Veuillez cliquer sur le groupe contenant votre carte avant de continuer.",
+        "reveal-title": "✨ Votre carte est :",
+        "restart-btn": "🔄 Recommencer l'devine"
+      },
+      en: {
+        title: "🔮 Divine your card",
+        subtitle: "Unveil the Mystery of Your Chosen Card",
+        "instruction-1": "Think of a card among the 25 below and keep it in your mind.",
+        "instruction-2": "Click on the group containing your card.",
+        step: "Step",
+        "next-btn": "Continue the Magic",
+        "selected-group": "✨ Selected group:",
+        "select-prompt": "🧐 Please click on the group containing your card before continuing.",
+        "reveal-title": "✨ Your card is:",
+        "restart-btn": "🔄 Restart the devine"
+      }
+    };
+
+    let currentLang = 'fr';
+
+    function updateLanguage(lang) {
+      currentLang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(elem => {
+        const key = elem.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          elem.textContent = translations[lang][key];
+        }
+      });
+
+      // Update language buttons
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+    }
+
+    // Language switcher event listeners
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        updateLanguage(btn.getAttribute('data-lang'));
+      });
+    });
+
+    // ============ Screen Size Detection & Optimization ============
+    function optimizeForScreenSize() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      
+      // Adjust star and particle count based on screen size
+      if (width < 375) {
+        // Ultra small screens - minimal animations
+        document.querySelectorAll('.star').forEach((star, index) => {
+          if (index > 30) star.remove();
+        });
+        document.querySelectorAll('.particle').forEach(particle => {
+          particle.remove();
+        });
+      } else if (width < 576) {
+        // Small screens - reduced animations
+        document.querySelectorAll('.star').forEach((star, index) => {
+          if (index > 50) star.remove();
+        });
+        document.querySelectorAll('.particle').forEach((particle, index) => {
+          if (index > 8) particle.remove();
+        });
+      } else if (width < 768) {
+        // Medium screens
+        document.querySelectorAll('.star').forEach((star, index) => {
+          if (index > 80) star.remove();
+        });
+        document.querySelectorAll('.particle').forEach((particle, index) => {
+          if (index > 12) particle.remove();
+        });
+      }
+
+      // Adjust layout for landscape orientation on small screens
+      if (width < 768 && height < 500) {
+        document.body.classList.add('landscape-mode');
+      } else {
+        document.body.classList.remove('landscape-mode');
+      }
+    }
+
+    // ============ Starfield Generation ============
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      for (let i = 0; i < 150; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        starsContainer.appendChild(star);
+      }
+    }
+
+    // ============ Floating Particles ============
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 8 + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // ============ Card Game Logic ============
+    let cards = Array.from({ length: 25 }, (_, i) => `img/carte${i + 1}.png`);
+    let currentDeck = shuffle(cards);
+    let step = 0;
+    let selectedGroupIndex = null;
+
+    function shuffle(array) {
+      return array.slice().sort(() => Math.random() - 0.5);
+    }
+
+    function dealGroups(deck) {
+      let groups = [[], [], [], [], []];
+      deck.forEach((card, i) => {
+        groups[i % 5].push(card);
+      });
+      return groups;
+    }
+
+    function displayGroups(groups) {
+      const container = document.getElementById('groups');
+      container.innerHTML = '';
+      
+      groups.forEach((group, gIndex) => {
+        const groupDiv = document.createElement('div');
+        groupDiv.className = 'group';
+        groupDiv.setAttribute('data-group-index', gIndex);
+
+        group.forEach(cardUrl => {
+          const cardDiv = document.createElement('div');
+          cardDiv.className = 'card';
+
+          const img = document.createElement('img');
+          img.src = cardUrl;
+          img.alt = 'Mystic Card';
+          img.className = 'carte-image';
+
+          cardDiv.appendChild(img);
+          groupDiv.appendChild(cardDiv);
+        });
+
+        // Click handler for entire group (works for both mouse and touch)
+        groupDiv.addEventListener('click', (e) => {
+          e.preventDefault();
+          // Remove previous selection
+          document.querySelectorAll('.group').forEach(g => g.classList.remove('selected'));
+          
+          // Mark this group as selected
+          groupDiv.classList.add('selected');
+          selectedGroupIndex = gIndex;
+          
+          document.getElementById('message').textContent = 
+            `${translations[currentLang]['selected-group']} ${gIndex + 1}`;
+        });
+
+        // Add touch support
+        groupDiv.addEventListener('touchstart', (e) => {
+          groupDiv.style.transform = 'scale(0.98)';
+        });
+
+        groupDiv.addEventListener('touchend', (e) => {
+          groupDiv.style.transform = '';
+        });
+
+        container.appendChild(groupDiv);
+      });
+    }
+
+    function nextStep() {
+      if (selectedGroupIndex === null && step < 2) {
+        alert(translations[currentLang]['select-prompt']);
+        return;
+      }
+
+      if (step < 2) {
+        let groups = dealGroups(currentDeck);
+
+        // Reorder: 2 groups, selected group, 2 other groups
+        let reordered = [
+          ...groups[(selectedGroupIndex + 1) % 5],
+          ...groups[(selectedGroupIndex + 2) % 5],
+          ...groups[selectedGroupIndex],
+          ...groups[(selectedGroupIndex + 3) % 5],
+          ...groups[(selectedGroupIndex + 4) % 5],
+        ];
+
+        currentDeck = reordered;
+        selectedGroupIndex = null;
+        displayGroups(dealGroups(currentDeck));
+        step++;
+        
+        document.getElementById('stepNumber').textContent = step + 1;
+        document.getElementById('message').textContent = '';
+      } else {
+        revealCard();
+      }
+    }
+
+    function revealCard() {
+      const guessedCard = currentDeck[12];
+      document.getElementById('groups').innerHTML = '';
+      
+      const revealHTML = `
+        <div class="reveal-container">
+          <h2 class="reveal-title" data-i18n="reveal-title">${translations[currentLang]['reveal-title']}</h2>
+          <div class="revealed-card-container">
+            <img src="${guessedCard}" class="revealed-card" alt="Your Card" />
+          </div>
+          <br>
+          <button class="restart-btn" onclick="restartGame()">
+            <span data-i18n="restart-btn">${translations[currentLang]['restart-btn']}</span>
+          </button>
+        </div>
+      `;
+      
+      document.getElementById('message').innerHTML = revealHTML;
+      
+      // Hide instructions and next button
+      document.querySelector('.instructions').style.display = 'none';
+      document.querySelector('.action-section').style.display = 'none';
+    }
+
+    function restartGame() {
+      currentDeck = shuffle(cards);
+      step = 0;
+      selectedGroupIndex = null;
+      
+      document.getElementById('message').innerHTML = '';
+      document.getElementById('stepNumber').textContent = '1';
+      document.querySelector('.instructions').style.display = 'block';
+      document.querySelector('.action-section').style.display = 'block';
+      
+      displayGroups(dealGroups(currentDeck));
+    }
+
+    // ============ Initialize ============
+    optimizeForScreenSize();
+    createStars();
+    createParticles();
+    displayGroups(dealGroups(currentDeck));
+
+    // Re-optimize on window resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        optimizeForScreenSize();
+      }, 250);
+    });
+  </script>
+</body>
+</html>
